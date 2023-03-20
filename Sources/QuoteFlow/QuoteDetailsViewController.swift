@@ -6,26 +6,25 @@
 //
 
 import UIKit
+import Models
+import Utils
 
 class QuoteDetailsViewController: UIViewController {
     
-    private var quote:Quote? = nil
-    
+    private var quote: Quote
+
     let symbolLabel = UILabel()
     let nameLabel = UILabel()
     let lastLabel = UILabel()
     let currencyLabel = UILabel()
     let readableLastChangePercentLabel = UILabel()
     let favoriteButton = UIButton()
-    
-    
-    
-    
-    init(quote:Quote) {
-        super.init(nibName: nil, bundle: nil)
+
+    init(quote: Quote) {
         self.quote = quote
+        super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -36,11 +35,11 @@ class QuoteDetailsViewController: UIViewController {
         view.backgroundColor = .white
         addSubviews()
         setupAutolayout()
-        symbolLabel.text = quote?.symbol
-        nameLabel.text = quote?.name
-        lastLabel.text = quote?.last
-        currencyLabel.text = quote?.currency
-        readableLastChangePercentLabel.text = quote?.readableLastChangePercent
+        symbolLabel.text = quote.symbol
+        nameLabel.text = quote.name
+        lastLabel.text = quote.last
+        currencyLabel.text = quote.currency
+        readableLastChangePercentLabel.text = quote.readableLastChangePercent
         
     }
     

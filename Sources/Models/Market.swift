@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-class Market {
-    let marketName:String = "SMI"
-    var quotes:[Quote]? = []
+public class Market {
+    public let marketName: String = "SMI"
+    public var quotes: [Quote] = []
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AppFlow
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,13 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        window = UIWindow(frame: UIScreen.main.bounds)
-        let vc:QuotesListViewController = QuotesListViewController()
-        let nc:UINavigationController = UINavigationController(rootViewController: vc)
-        
-        self.window?.rootViewController = nc
-        self.window?.makeKeyAndVisible()
-        
+        window = UIWindow(frame: UIScreen.main.bounds).then {
+            $0.rootViewController = UINavigationController(
+                rootViewController: QuotesListViewController()
+            )
+            $0.makeKeyAndVisible()
+        }
         return true
     }
 
