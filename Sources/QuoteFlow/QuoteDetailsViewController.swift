@@ -8,6 +8,7 @@
 import UIKit
 import Models
 import Utils
+import Resources
 
 final class QuoteDetailsViewController: UIViewController {
     
@@ -41,7 +42,7 @@ final class QuoteDetailsViewController: UIViewController {
     }
     let favoriteButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
-        $0.setTitle("Add to favorites", for: .normal)
+        $0.setTitle(L10n.QuoteFlow.Details.favoriteTitle, for: .normal)
         $0.layer.then {
             $0.cornerRadius = Consts.cornerRadius
             $0.masksToBounds = true

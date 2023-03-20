@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "Models", targets: ["Models"]),
         .library(name: "DataManager", targets: ["DataManager"]),
         .library(name: "Utils", targets: ["Utils"]),
+        .library(name: "Resources", targets: ["Resources"]),
         .library(name: "AppFlow", targets: ["AppFlow"]),
         .library(name: "QuoteFlow", targets: ["QuoteFlow"]),
     ],
@@ -18,7 +19,12 @@ let package = Package(
         .target(name: "Models", dependencies: []),
         .target(name: "DataManager", dependencies: []),
         .target(name: "Utils", dependencies: []),
+        .target(
+            name: "Resources",
+            dependencies: [],
+            resources: [.process("Localization"), .process("Assets")]
+        ),
         .target(name: "AppFlow", dependencies: ["QuoteFlow"]),
-        .target(name: "QuoteFlow", dependencies: ["Models", "DataManager", "Utils"]),
+        .target(name: "QuoteFlow", dependencies: ["Models", "DataManager", "Utils", "Resources"]),
     ]
 )
