@@ -24,12 +24,11 @@ public final class Store<State>: BaseStore<State> {
         _mutationQueue.async { super.update(mutation) }
     }
 
-    public func updateTask<T, Z>(
+    public func updateTask<T>(
         priority: TaskPriority? = nil,
         operation: @escaping @Sendable (State) async throws -> T,
         mutation: @escaping (inout State, T) -> Void,
-        catch handler: (@Sendable (State, Error) async -> Z)? = nil,
-        catchMutation mutationHandler: @escaping (inout State, Z) -> Void = { _, _ in }
+        catch handler: @escaping (inout State, Error) -> Void = { _, _ in }
     ) -> AnyPublisher<Void, Never> {
         Deferred {
             let subject = PassthroughSubject<Void, Never>()
@@ -46,11 +45,8 @@ public final class Store<State>: BaseStore<State> {
                 } catch is CancellationError {
                     subject.send(completion: .finished)
                 } catch {
-                    guard let errValue = await handler?(self.state, error) else {
-                        return subject.send(completion: .finished)
-                    }
                     self.update { state in
-                        mutationHandler(&state, errValue)
+                        handler(&state, error)
                         subject.send(())
                         subject.send(completion: .finished)
                     }
