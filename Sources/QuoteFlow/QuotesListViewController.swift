@@ -7,16 +7,32 @@
 
 import UIKit
 import Models
+import Combine
+import Utils
 
 public class QuotesListViewController: UIViewController {
-//    private let dataManager: DataManager = DataManager()
-    private var market: Market? = nil
+    private let viewStore: QuoteFlowViewStore
+    private var cancellabes: Set<AnyCancellable> = .init()
 
-    public init() {
+    init(viewStore: QuoteFlowViewStore) {
+        self.viewStore = viewStore
         super.init(nibName: nil, bundle: nil)
+        viewStore.action.load.perform()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        bindUpdate()
+    }
+
+    private func bindUpdate() {
+        viewStore.store.stateDriver
+            .print("<<<QuoteList>>>")
+            .sink(receiveValue: F.voids)
+            .store(in: &cancellabes)
     }
 }

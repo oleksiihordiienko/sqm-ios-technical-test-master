@@ -16,9 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds).then {
-            $0.rootViewController = UINavigationController(
-                rootViewController: QuoteDetailsViewController()
-            )
+            $0.rootViewController = QouteFlowController()
             $0.makeKeyAndVisible()
         }
         return true

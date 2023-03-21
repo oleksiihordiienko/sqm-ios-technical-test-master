@@ -17,7 +17,12 @@ let package = Package(
         .library(name: "AppFlow", targets: ["AppFlow"]),
         .library(name: "QuoteFlow", targets: ["QuoteFlow"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/apple/swift-collections.git",
+            .upToNextMinor(from: "1.0.2")
+        )
+    ],
     targets: [
         .target(name: "Models", dependencies: ["Resources"]),
         .target(name: "Utils"),
@@ -32,7 +37,15 @@ let package = Package(
         .target(name: "AppFlow", dependencies: ["QuoteFlow"]),
         .target(
             name: "QuoteFlow",
-            dependencies: ["Models", "Utils", "Resources", "Environment", "API", "Store"],
+            dependencies: [
+                "Models",
+                "Utils",
+                "Resources",
+                "Environment",
+                "API",
+                "Store",
+                .product(name: "Collections", package: "swift-collections"),
+            ],
             resources: [.process("Stubs")]
         ),
     ]
