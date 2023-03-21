@@ -26,7 +26,7 @@ let package = Package(
             resources: [.process("Localization"), .process("Assets")]
         ),
         .target(name: "Store", dependencies: ["Utils"]),
-        .target(name: "Environment", dependencies: ["Utils"]),
+        .target(name: "Environment", dependencies: ["Utils", "Models"]),
         .target(name: "APIClient", dependencies: ["Environment", "Utils"]),
         .target(name: "API", dependencies: ["APIClient", "Models", "Utils"]),
         .target(name: "AppFlow", dependencies: ["QuoteFlow"]),

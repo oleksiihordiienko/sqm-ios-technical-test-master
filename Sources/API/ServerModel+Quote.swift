@@ -60,6 +60,7 @@ extension Quote.VariantColor {
     static func build(rawValue: String?) -> Self {
         switch rawValue {
         case "green": return .green
+        case "red": return .red
         default: return Self.default
         }
     }

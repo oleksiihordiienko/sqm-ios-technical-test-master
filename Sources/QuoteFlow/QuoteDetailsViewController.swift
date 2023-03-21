@@ -11,13 +11,14 @@ import Models
 import Utils
 import Resources
 
-final class QuoteDetailsViewController: UIViewController {
+public final class QuoteDetailsViewController: UIViewController {
     
     public var quote: Quote {
         didSet { didSetQuote(quote) }
     }
 
     public var formatCurrency = Current.format.currency
+    public var defaultQuoteVariantColor = Current.defaultQuoteVariantColor
 
     let symbolLabel = UILabel().then {
         $0.textAlignment = .center
@@ -42,7 +43,6 @@ final class QuoteDetailsViewController: UIViewController {
             $0.cornerRadius = Consts.cornerRadius
             $0.masksToBounds = true
             $0.borderWidth = Consts.BorderWidth.readableLastChangePercentLabel
-            $0.borderColor = UIColor.black.cgColor
         }
     }
     let favoriteButton = UIButton().then {
@@ -65,7 +65,7 @@ final class QuoteDetailsViewController: UIViewController {
         favoriteButton,
     ]}
 
-    init(quote: Quote = .empty) {
+    public init(quote: Quote = SampleData.preview1) {
         self.quote = quote
         super.init(nibName: nil, bundle: nil)
         didSetQuote(quote)
@@ -76,7 +76,7 @@ final class QuoteDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         allViews.forEach(view.addSubview)
@@ -84,11 +84,16 @@ final class QuoteDetailsViewController: UIViewController {
     }
 
     private func didSetQuote(_ quote: Quote) {
-        guard quote != .empty else {
+        guard quote != SampleData.empty else {
             symbolLabel.text = nil
             nameLabel.text = nil
             lastLabel.text = nil
             currencyLabel.text = nil
+            readableLastChangePercentLabel.then {
+                $0.textColor = defaultQuoteVariantColor.uiColor
+                $0.layer.borderColor = defaultQuoteVariantColor.uiColor.cgColor
+                $0.text = nil
+            }
             readableLastChangePercentLabel.text = nil
             return
         }
@@ -97,7 +102,15 @@ final class QuoteDetailsViewController: UIViewController {
             nameLabel.text = $0.name
             lastLabel.text = formatCurrency($0.last)
             currencyLabel.text = $0.currency.rawValue
-            readableLastChangePercentLabel.text = $0.readableLastChangePercent
+            F.apply((
+                readableLastChangePercentLabel,
+                $0.readableLastChangePercent,
+                $0.variationColor
+            )) { label, text, color in
+                label.textColor = color.uiColor
+                label.layer.borderColor = color.uiColor.cgColor
+                label.text = text
+            }
         }
     }
     
@@ -115,8 +128,12 @@ final class QuoteDetailsViewController: UIViewController {
     }
 }
 
-extension Quote {
-    static var empty: Self {
+public extension QuoteDetailsViewController {
+    enum SampleData {}
+}
+
+public extension QuoteDetailsViewController.SampleData {
+    static var empty: Quote {
         .init(
             id: "",
             market: .smi,
@@ -126,6 +143,32 @@ extension Quote {
             last: 0,
             readableLastChangePercent: "",
             variationColor: .default
+        )
+    }
+
+    static var preview1: Quote {
+        .init(
+            id: "SMI_PR_Preview_1",
+            market: .smi,
+            currency: .chf,
+            name: "SMI PR",
+            symbol: "SMI PR Symbol",
+            last: 11,
+            readableLastChangePercent: "-0.26 %",
+            variationColor: .red
+        )
+    }
+
+    static var preview2: Quote {
+        .init(
+            id: "",
+            market: .smi,
+            currency: .chf,
+            name: "SWISSCOM M",
+            symbol: "SWISSCOM M Symbol",
+            last: 494.20,
+            readableLastChangePercent: "3.98 %",
+            variationColor: .green
         )
     }
 }

@@ -41,6 +41,7 @@ public struct Quote: Identifiable, Equatable {
 public extension Quote {
     enum VariantColor: Equatable {
         case green
+        case red
         case `default`
     }
 }
@@ -49,6 +50,7 @@ public extension Quote.VariantColor {
     var uiColor: UIColor {
         switch self {
         case .green: return .green
+        case .red: return .red
         default: return .black
         }
     }

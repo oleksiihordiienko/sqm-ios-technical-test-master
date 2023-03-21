@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 import Utils
 
 public var Current = Environment.live
@@ -14,6 +15,7 @@ public struct Environment {
     public var json: JSONCoder
     public var request: Request
     public var format: Formatter
+    public var defaultQuoteVariantColor = Quote.VariantColor.default
 }
 
 extension Environment {
