@@ -9,10 +9,10 @@ import Foundation
 import UIKit
 import Models
 
-enum ServerModel {
+public enum ServerModel {
 }
 
-extension ServerModel {
+public extension ServerModel {
     struct Quote: Decodable {
         let key: String
         let name: String
@@ -25,7 +25,7 @@ extension ServerModel {
 }
 
 extension Quote {
-    static func build(with market: Market) -> (ServerModel.Quote) -> Self {
+    public static func build(with market: Market) -> (ServerModel.Quote) -> Self {
         { .init(market: market, smdl: $0) }
     }
 

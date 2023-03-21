@@ -7,7 +7,7 @@
 
 import Foundation
 import Models
-import APIClient
+@_exported import APIClient
 import Utils
 
 public enum API {
@@ -20,7 +20,7 @@ public enum API {
     }
 }
 
-extension API.Quotes {
+public extension API.Quotes {
     static func getList(market: Market) throws -> EndpointDecode<[Quote]> {
         try .init(
             Endpoint(url: Self.url(market: market), method: .get),

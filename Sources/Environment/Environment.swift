@@ -12,7 +12,7 @@ import Utils
 public var Current = Environment.live
 
 public struct Environment {
-    public var json: JSONCoder
+    public var json: JSONUtils
     public var request: Request
     public var format: Formatter
     public var defaultQuoteVariantColor = Quote.VariantColor.default
@@ -20,7 +20,10 @@ public struct Environment {
 
 extension Environment {
     static let live = Self.init(
-        json: JSONCoder(),
+        json: JSONUtils(
+            decoder: JSONDecoder(),
+            encoder: JSONEncoder()
+        ),
         request: Request(),
         format: Formatter()
     )
@@ -29,11 +32,6 @@ extension Environment {
 public struct Request {
     public var cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy
     public var timeoutInterval: TimeInterval = 60.0
-}
-
-public struct JSONCoder {
-    public var decoder = JSONDecoder()
-    public var encoder = JSONEncoder()
 }
 
 public struct Formatter {

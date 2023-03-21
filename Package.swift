@@ -30,6 +30,10 @@ let package = Package(
         .target(name: "APIClient", dependencies: ["Environment", "Utils"]),
         .target(name: "API", dependencies: ["APIClient", "Models", "Utils"]),
         .target(name: "AppFlow", dependencies: ["QuoteFlow"]),
-        .target(name: "QuoteFlow", dependencies: ["Models", "Utils", "Resources", "Environment"]),
+        .target(
+            name: "QuoteFlow",
+            dependencies: ["Models", "Utils", "Resources", "Environment", "API", "Store"],
+            resources: [.process("Stubs")]
+        ),
     ]
 )
