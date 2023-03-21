@@ -44,4 +44,16 @@ public extension F {
             return value
         }
     }
+
+    static func their<Root, Value, NewValue>(
+      _ getter: @escaping (Root) -> Value,
+      _ combining: @escaping (Value, Value) -> NewValue
+      )
+      -> (Root, Root) -> NewValue {
+        return { combining(getter($0), getter($1)) }
+    }
+
+    static func returns<A>(_ fun: @escaping () throws -> A) rethrows -> A {
+      return try fun()
+    }
 }

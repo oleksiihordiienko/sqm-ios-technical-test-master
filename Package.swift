@@ -12,6 +12,8 @@ let package = Package(
         .library(name: "Utils", targets: ["Utils"]),
         .library(name: "Resources", targets: ["Resources"]),
         .library(name: "Store", targets: ["Store"]),
+        .library(name: "Environment", targets: ["Environment"]),
+        .library(name: "APIClient", targets: ["APIClient"]),
         .library(name: "AppFlow", targets: ["AppFlow"]),
         .library(name: "QuoteFlow", targets: ["QuoteFlow"]),
     ],
@@ -25,6 +27,8 @@ let package = Package(
             resources: [.process("Localization"), .process("Assets")]
         ),
         .target(name: "Store", dependencies: ["Utils"]),
+        .target(name: "Environment"),
+        .target(name: "APIClient", dependencies: ["Environment", "Utils"]),
         .target(name: "AppFlow", dependencies: ["QuoteFlow"]),
         .target(name: "QuoteFlow", dependencies: ["Models", "DataManager", "Utils", "Resources"]),
     ]
