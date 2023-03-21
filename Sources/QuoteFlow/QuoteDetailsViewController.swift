@@ -6,13 +6,18 @@
 //
 
 import UIKit
+import Environment
 import Models
 import Utils
 import Resources
 
 final class QuoteDetailsViewController: UIViewController {
     
-    private var quote: Quote
+    public var quote: Quote {
+        didSet { didSetQuote(quote) }
+    }
+
+    public var formatCurrency = Current.format.currency
 
     let symbolLabel = UILabel().then {
         $0.textAlignment = .center
@@ -60,7 +65,7 @@ final class QuoteDetailsViewController: UIViewController {
         favoriteButton,
     ]}
 
-    init(quote: Quote) {
+    init(quote: Quote = .empty) {
         self.quote = quote
         super.init(nibName: nil, bundle: nil)
         didSetQuote(quote)
@@ -79,11 +84,19 @@ final class QuoteDetailsViewController: UIViewController {
     }
 
     private func didSetQuote(_ quote: Quote) {
+        guard quote != .empty else {
+            symbolLabel.text = nil
+            nameLabel.text = nil
+            lastLabel.text = nil
+            currencyLabel.text = nil
+            readableLastChangePercentLabel.text = nil
+            return
+        }
         F.apply(quote) {
             symbolLabel.text = $0.symbol
             nameLabel.text = $0.name
-            lastLabel.text = $0.last
-            currencyLabel.text = $0.currency
+            lastLabel.text = formatCurrency($0.last)
+            currencyLabel.text = $0.currency.rawValue
             readableLastChangePercentLabel.text = $0.readableLastChangePercent
         }
     }
@@ -99,5 +112,20 @@ final class QuoteDetailsViewController: UIViewController {
 
     @objc func didPressFavoriteButton(_ sender:UIButton!) {
         // TODO
+    }
+}
+
+extension Quote {
+    static var empty: Self {
+        .init(
+            id: "",
+            market: .smi,
+            currency: .unknown(""),
+            name: "",
+            symbol: "",
+            last: 0,
+            readableLastChangePercent: "",
+            variationColor: .default
+        )
     }
 }

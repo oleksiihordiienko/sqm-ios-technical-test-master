@@ -6,8 +6,16 @@
 //
 
 import Foundation
+import Resources
 
-public class Market {
-    public let marketName: String = "SMI"
-    public var quotes: [Quote] = []
+public enum Market {
+    case smi
+}
+
+public extension Market {
+    var name: String {
+        switch self {
+        case .smi: return L10n.Market.smi
+        }
+    }
 }

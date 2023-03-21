@@ -19,7 +19,7 @@ public struct Endpoint {
     public init(
         url: URL?,
         method: Endpoint.Method,
-        resolvingAgainstBaseURL: Bool = true
+        resolvingAgainstBaseURL: Bool = false
     ) throws {
         struct InvalidEndpoint: Error {}
 

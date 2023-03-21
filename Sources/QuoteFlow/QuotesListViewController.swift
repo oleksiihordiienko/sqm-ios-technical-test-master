@@ -7,10 +7,9 @@
 
 import UIKit
 import Models
-import DataManager
 
 public class QuotesListViewController: UIViewController {
-    private let dataManager: DataManager = DataManager()
+//    private let dataManager: DataManager = DataManager()
     private var market: Market? = nil
 
     public init() {

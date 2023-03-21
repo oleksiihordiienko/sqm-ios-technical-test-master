@@ -6,18 +6,21 @@
 //
 
 import Foundation
+import Utils
 
 public var Current = Environment.live
 
 public struct Environment {
     public var json: JSONCoder
     public var request: Request
+    public var format: Formatter
 }
 
 extension Environment {
     static let live = Self.init(
         json: JSONCoder(),
-        request: Request()
+        request: Request(),
+        format: Formatter()
     )
 }
 
@@ -29,4 +32,8 @@ public struct Request {
 public struct JSONCoder {
     public var decoder = JSONDecoder()
     public var encoder = JSONEncoder()
+}
+
+public struct Formatter {
+    public var currency = Utils.Formatter.currency(forAmount:)
 }

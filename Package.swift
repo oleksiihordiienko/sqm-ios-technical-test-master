@@ -8,28 +8,28 @@ let package = Package(
     platforms: [.iOS("14.4")],
     products: [
         .library(name: "Models", targets: ["Models"]),
-        .library(name: "DataManager", targets: ["DataManager"]),
         .library(name: "Utils", targets: ["Utils"]),
         .library(name: "Resources", targets: ["Resources"]),
         .library(name: "Store", targets: ["Store"]),
         .library(name: "Environment", targets: ["Environment"]),
+        .library(name: "API", targets: ["API"]),
         .library(name: "APIClient", targets: ["APIClient"]),
         .library(name: "AppFlow", targets: ["AppFlow"]),
         .library(name: "QuoteFlow", targets: ["QuoteFlow"]),
     ],
     dependencies: [],
     targets: [
-        .target(name: "Models"),
-        .target(name: "DataManager"),
+        .target(name: "Models", dependencies: ["Resources"]),
         .target(name: "Utils"),
         .target(
             name: "Resources",
             resources: [.process("Localization"), .process("Assets")]
         ),
         .target(name: "Store", dependencies: ["Utils"]),
-        .target(name: "Environment"),
+        .target(name: "Environment", dependencies: ["Utils"]),
         .target(name: "APIClient", dependencies: ["Environment", "Utils"]),
+        .target(name: "API", dependencies: ["APIClient", "Models", "Utils"]),
         .target(name: "AppFlow", dependencies: ["QuoteFlow"]),
-        .target(name: "QuoteFlow", dependencies: ["Models", "DataManager", "Utils", "Resources"]),
+        .target(name: "QuoteFlow", dependencies: ["Models", "Utils", "Resources", "Environment"]),
     ]
 )
