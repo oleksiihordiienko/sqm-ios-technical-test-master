@@ -11,19 +11,20 @@ let package = Package(
         .library(name: "DataManager", targets: ["DataManager"]),
         .library(name: "Utils", targets: ["Utils"]),
         .library(name: "Resources", targets: ["Resources"]),
+        .library(name: "Store", targets: ["Store"]),
         .library(name: "AppFlow", targets: ["AppFlow"]),
         .library(name: "QuoteFlow", targets: ["QuoteFlow"]),
     ],
     dependencies: [],
     targets: [
-        .target(name: "Models", dependencies: []),
-        .target(name: "DataManager", dependencies: []),
-        .target(name: "Utils", dependencies: []),
+        .target(name: "Models"),
+        .target(name: "DataManager"),
+        .target(name: "Utils"),
         .target(
             name: "Resources",
-            dependencies: [],
             resources: [.process("Localization"), .process("Assets")]
         ),
+        .target(name: "Store", dependencies: ["Utils"]),
         .target(name: "AppFlow", dependencies: ["QuoteFlow"]),
         .target(name: "QuoteFlow", dependencies: ["Models", "DataManager", "Utils", "Resources"]),
     ]

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Functional.swift
 //  
 //
 //  Created by Oleksii Hordiienko on 20.03.2023.
@@ -35,5 +35,13 @@ public extension F {
 
     static func apply<A, B>(_ value: A, _ fun: (A) throws -> B) rethrows -> B {
         return try fun(value)
+    }
+
+    static func fromInout<A>(_ fun: @escaping (inout A) -> Void) -> (A) -> A {
+        return { value in
+            var value = value
+            fun(&value)
+            return value
+        }
     }
 }
