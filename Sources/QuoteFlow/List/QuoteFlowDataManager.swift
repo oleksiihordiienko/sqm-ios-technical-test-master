@@ -26,4 +26,8 @@ public extension QuoteFlowDataManager {
         let quotes = try Current.json.load(type: [ServerModel.Quote].self, filename: "quotes-stub", bundle: .module)
         return quotes.map(Quote.build(with: market))
     })
+    static let error = Self(getQuotes: { _ in
+        struct SmthBadHappened: Error {}
+        throw SmthBadHappened()
+    })
 }

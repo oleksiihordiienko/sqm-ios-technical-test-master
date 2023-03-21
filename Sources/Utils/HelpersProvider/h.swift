@@ -30,4 +30,3 @@ public struct HelpersExtension<Base> {
     }
 }
 
-extension CharacterSet: HelpersProvider {}

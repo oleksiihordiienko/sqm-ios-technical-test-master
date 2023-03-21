@@ -12,7 +12,7 @@ import Utils
 
 public class QuotesListViewController: UIViewController {
     private let viewStore: QuoteFlowViewStore
-    private var cancellabes: Set<AnyCancellable> = .init()
+    private var cancellables: Set<AnyCancellable> = .init()
 
     init(viewStore: QuoteFlowViewStore) {
         self.viewStore = viewStore
@@ -33,6 +33,6 @@ public class QuotesListViewController: UIViewController {
         viewStore.store.stateDriver
             .print("<<<QuoteList>>>")
             .sink(receiveValue: F.voids)
-            .store(in: &cancellabes)
+            .store(in: &cancellables)
     }
 }
