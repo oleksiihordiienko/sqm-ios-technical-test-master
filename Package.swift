@@ -48,5 +48,6 @@ let package = Package(
             ],
             resources: [.process("Stubs")]
         ),
+        .testTarget(name: "QuoteFlowTests", dependencies: ["QuoteFlow"]),
     ]
 )
