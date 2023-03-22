@@ -25,6 +25,11 @@ public struct Command {
 
 public extension Command {
     static let empty = Command {}
+
+    static func weak<A: AnyObject>(_ object: A, _ handler: @escaping (A) -> Void) -> Command {
+        let this = Weak(object)
+        return Command { this.value.map(handler) }
+    }
 }
 
 public struct CommandWith<T> {
@@ -37,10 +42,22 @@ public struct CommandWith<T> {
     public func perform(with value: T) {
         action(value)
     }
+
+    public func with(_ value: T) -> Command {
+        .init { perform(with: value) }
+    }
 }
 
 public extension CommandWith {
     static var empty: Self {
         .init { _ in }
+    }
+
+    static func weak<A: AnyObject>(_ object: A, _ handler: @escaping (A, T) -> Void) -> Self {
+        let this = Weak(object)
+        return .init { value in
+            guard let object = this.value else { return }
+            handler(object, value)
+        }
     }
 }

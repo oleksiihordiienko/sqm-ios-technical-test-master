@@ -34,7 +34,7 @@ extension QuoteDetailsViewController {
                 ),
                 $0.widthAnchor.constraint(equalToConstant: Consts.Width.readableLastChangePercentLabel),
             ]},
-            F.apply(favoriteButton) {[
+            F.apply(favouriteButton) {[
                 $0.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
                 $0.widthAnchor.constraint(equalToConstant: Consts.Width.favoriteButton),
             ]}
@@ -63,7 +63,7 @@ extension QuoteDetailsViewController {
                 $0.topAnchor.constraint(equalTo: lastLabel.topAnchor),
                 $0.bottomAnchor.constraint(equalTo: lastLabel.bottomAnchor),
             ]},
-            F.apply(favoriteButton) {[
+            F.apply(favouriteButton) {[
                 $0.topAnchor.constraint(equalTo: readableLastChangePercentLabel.bottomAnchor, constant: Consts.Top.favoriteButton),
                 $0.heightAnchor.constraint(equalToConstant: Consts.Height.favoriteButton),
             ]}

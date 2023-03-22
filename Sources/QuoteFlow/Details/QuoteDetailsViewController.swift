@@ -12,13 +12,13 @@ import Utils
 import Resources
 
 public final class QuoteDetailsViewController: UIViewController {
-    
-    public var quote: Quote {
-        didSet { didSetQuote(quote) }
-    }
 
-    public var formatCurrency = Current.format.currency
-    public var defaultQuoteVariantColor = Current.defaultQuoteVariantColor
+    var addToFavourite: CommandWith<QuoteCell.State> = .empty
+
+    var formatCurrency = Current.format.currency
+    var defaultQuoteVariantColor = Current.defaultQuoteVariantColor
+
+    private var state: QuoteCell.State
 
     let symbolLabel = UILabel().then {
         $0.textAlignment = .center
@@ -45,14 +45,13 @@ public final class QuoteDetailsViewController: UIViewController {
             $0.borderWidth = Consts.BorderWidth.readableLastChangePercentLabel
         }
     }
-    let favoriteButton = UIButton().then {
+    let favouriteButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
         $0.setTitle(L10n.QuoteFlow.Details.favoriteTitle, for: .normal)
         $0.layer.then {
             $0.cornerRadius = Consts.cornerRadius
             $0.masksToBounds = true
             $0.borderWidth = Consts.BorderWidth.favoriteButton
-            $0.borderColor = UIColor.black.cgColor
         }
     }
 
@@ -62,14 +61,14 @@ public final class QuoteDetailsViewController: UIViewController {
         lastLabel,
         currencyLabel,
         readableLastChangePercentLabel,
-        favoriteButton,
+        favouriteButton,
     ]}
 
-    public init(quote: Quote = SampleData.preview1) {
-        self.quote = quote
+    init(state: QuoteCell.State) {
+        self.state = state
         super.init(nibName: nil, bundle: nil)
-        didSetQuote(quote)
-        favoriteButton.addTarget(self, action: #selector(didPressFavoriteButton), for: .touchUpInside)
+        didSetQuote(state)
+        favouriteButton.addTarget(self, action: #selector(didPressFavoriteButton), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -83,8 +82,8 @@ public final class QuoteDetailsViewController: UIViewController {
         setupAutolayout()
     }
 
-    private func didSetQuote(_ quote: Quote) {
-        guard quote != SampleData.empty else {
+    private func didSetQuote(_ state: QuoteCell.State) {
+        guard state.quote != SampleData.empty else {
             symbolLabel.text = nil
             nameLabel.text = nil
             lastLabel.text = nil
@@ -97,7 +96,7 @@ public final class QuoteDetailsViewController: UIViewController {
             readableLastChangePercentLabel.text = nil
             return
         }
-        F.apply(quote) {
+        F.apply(state.quote) {
             symbolLabel.text = $0.symbol
             nameLabel.text = $0.name
             lastLabel.text = formatCurrency($0.last)
@@ -112,6 +111,11 @@ public final class QuoteDetailsViewController: UIViewController {
                 label.text = text
             }
         }
+        favouriteButton.then {
+            $0.isEnabled = !state.isFavourite
+            let color = state.isFavourite ? UIColor.black : .yellow
+            $0.layer.borderColor = color.cgColor
+        }
     }
     
     private func setupAutolayout() {
@@ -124,7 +128,7 @@ public final class QuoteDetailsViewController: UIViewController {
     }
 
     @objc func didPressFavoriteButton(_ sender:UIButton!) {
-        // TODO
+        addToFavourite.perform(with: state)
     }
 }
 

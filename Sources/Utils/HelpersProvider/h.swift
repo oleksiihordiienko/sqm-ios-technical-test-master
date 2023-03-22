@@ -30,4 +30,4 @@ public struct HelpersExtension<Base> {
     }
 }
 
-extension UIView: HelpersProvider {}
+extension NSObject: HelpersProvider {}

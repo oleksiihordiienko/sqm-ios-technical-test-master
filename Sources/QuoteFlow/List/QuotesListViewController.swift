@@ -10,8 +10,10 @@ import Models
 import Combine
 import Utils
 
-public class QuotesListViewController: UIViewController {
-    private let viewStore: QuoteFlowViewStore
+class QuotesListViewController: UIViewController {
+    var didSelect: CommandWith<QuoteCell.State> = .empty
+    let viewStore: QuoteFlowViewStore
+
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let tableView = UITableView().then {
@@ -25,12 +27,13 @@ public class QuotesListViewController: UIViewController {
 
     init(viewStore: QuoteFlowViewStore) {
         self.viewStore = viewStore
-        dataSource = .init( tableView: tableView) { tbl, path, state in
+        dataSource = .init(tableView: tableView) { tbl, path, state in
             let cell: QuoteCell = tbl.dequeueReusableCell(withIdentifier: QuoteCell.identifier, for: path).apply(F.cast)!
             return cell.then { $0.configure(with: state) }
         }
-
         super.init(nibName: nil, bundle: nil)
+
+        tableView.delegate = self
         viewStore.action.load.perform()
     }
 
@@ -75,5 +78,12 @@ public class QuotesListViewController: UIViewController {
 extension QuotesListViewController {
     enum Consts {
         static let rowHeight = QuoteCell.Consts.baseSize * 5
+    }
+}
+
+extension QuotesListViewController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dataSource.itemIdentifier(for: indexPath)
+            .h.do(didSelect.perform)
     }
 }

@@ -22,6 +22,7 @@ public final class QuoteFlowViewStore {
     }
     struct Action {
         var load: Command
+        var setFavourite: CommandWith<QuoteCell.State>
     }
 
     private let worker: QuoteFlowDataManager
@@ -34,7 +35,8 @@ public final class QuoteFlowViewStore {
         self.worker = worker
         self.store = store
         self.action = .init(
-            load: Self.load(worker, store, cancellables)
+            load: Self.load(worker, store, cancellables),
+            setFavourite: Self.setFavourite(store)
         )
     }
 }
@@ -62,5 +64,13 @@ extension QuoteFlowViewStore {
         }
         .sink(receiveValue: F.voids)
         .store(in: &cancellables.val)
+    }}
+
+    static func setFavourite(
+        _ store: Store<State>
+    ) -> CommandWith<QuoteCell.State> { .init { quoteState in
+        store.update { state in
+            state.favourites.insert(quoteState.quote.id)
+        }
     }}
 }
