@@ -9,7 +9,7 @@ import UIKit
 
 public extension HelpersExtension where Base == UIView {
     @discardableResult
-    func addViews(_ views: [UIView]) -> Base {
+    func addViews(_ views: UIView...) -> Base {
         views.forEach(base.addSubview)
         return base
     }

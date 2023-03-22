@@ -50,7 +50,7 @@ final class QuoteCell: UITableViewCell {
     let leadingStack = QuoteCell.stack(axis: .vertical)
     let trailingStack = QuoteCell.stack()
 
-    let favouriteView = UIImageView().then {
+    let favouriteIcon = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFit
     }
@@ -99,13 +99,26 @@ final class QuoteCell: UITableViewCell {
                 label.text = text
             }
         }
-        favouriteView.image = state.isFavourite
+        favouriteIcon.image = state.isFavourite
             ? Asset.QuoteFlow.favorite
             : Asset.QuoteFlow.noFavorite
     }
 
     private func addSubviews() {
         contentView.addSubview(backView)
+        backView.h.addViews(
+            leadingStack.h.addArrangedViews(
+                nameLabel,
+                currenyStack.h.addArrangedViews(
+                    lastLabel,
+                    currencyLabel
+                )
+            ),
+            trailingStack.h.addArrangedViews(
+                percentLabel,
+                favouriteIcon
+            )
+        )
     }
 
     private func setupAutolayout() {
@@ -114,7 +127,25 @@ final class QuoteCell: UITableViewCell {
             me.trailingAnchor.constraint(equalTo: sup.trailingAnchor, constant: -const),
             me.topAnchor.constraint(equalTo: sup.topAnchor, constant: const),
             me.bottomAnchor.constraint(equalTo: sup.bottomAnchor, constant: -const),
-            me.heightAnchor.constraint(equalToConstant: Consts.baseSize * 5)
+        ]})
+
+        NSLayoutConstraint.activate(F.apply((leadingStack, backView, Consts.baseSize)) { me, sup, const in [
+            me.leadingAnchor.constraint(equalTo: sup.leadingAnchor, constant: const),
+            me.trailingAnchor.constraint(equalTo: sup.centerXAnchor),
+            me.topAnchor.constraint(equalTo: sup.topAnchor, constant: const),
+            me.bottomAnchor.constraint(equalTo: sup.bottomAnchor, constant: -const),
+        ]})
+        lastLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+        NSLayoutConstraint.activate(F.apply((favouriteIcon, Consts.Size.favourite)) { me, const in [
+            me.widthAnchor.constraint(equalToConstant: const),
+            me.heightAnchor.constraint(equalToConstant: const)
+        ]})
+
+        NSLayoutConstraint.activate(F.apply((trailingStack, backView, Consts.baseSize)) { me, sup, const in [
+            me.leadingAnchor.constraint(greaterThanOrEqualTo: sup.centerXAnchor, constant: const),
+            me.trailingAnchor.constraint(equalTo: sup.trailingAnchor, constant: -const),
+            me.centerYAnchor.constraint(equalTo: sup.centerYAnchor),
         ]})
     }
 }
@@ -123,12 +154,11 @@ extension QuoteCell {
     enum Consts {
         static let contentEdge: CGFloat = 1
         static let tinyEdge: CGFloat = 2
-        static let baseSize: CGFloat = 24
-        static let halfBaseSize = baseSize / 2
+        static let baseSize: CGFloat = 16
 
         enum Size {
-            static let percent = Consts.baseSize * 2
-            static let favourite = Consts.baseSize * 2
+            static let percent = Consts.baseSize + 8
+            static let favourite = Consts.baseSize * 2.5
         }
     }
 }
