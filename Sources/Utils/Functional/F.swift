@@ -56,4 +56,10 @@ public extension F {
     static func returns<A>(_ fun: @escaping () throws -> A) rethrows -> A {
       return try fun()
     }
+
+    static func updated<A>(_ val: A, _ fun: @escaping (inout A) throws -> Void) rethrows -> A {
+        var val = val
+        try fun(&val)
+        return val
+    }
 }

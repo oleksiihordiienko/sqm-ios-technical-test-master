@@ -7,8 +7,6 @@
 
 import UIKit
 
-extension UIStackView: HelpersProvider {}
-
 public extension HelpersExtension where Base == UIStackView {
     @discardableResult
     func addArrangedViews(_ views: [UIView]) -> Base {
