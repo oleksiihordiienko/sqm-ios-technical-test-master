@@ -1,6 +1,5 @@
 # sqm-ios-technical-test
-The test project's goal is to evaluate your skills and experience level. 
-Please do not include external framework and do not copy-paste external code. 
+The test project's goal is to evaluate your skills and experience level.
 
 ## Description 
 This app is using a web service to display a list of quotes of a market. The user can additionally decide to locally add or remove a quote from her local favorites by tapping on a button on the detail view.
@@ -13,6 +12,7 @@ This app is using a web service to display a list of quotes of a market. The use
  * 'readableLastChangePercent' text color must be the same color as indicated in the property 'variationColor'.
  * When the user taps on an item, 'QuoteDetailsViewController' should be displayed with the associated quote details.
  * Implement the local favorites system handling.
+ * **+ Refactor application using SwiftUI/Composable Architecture**
 
 ## Deliver
 * Create a repo on github.
