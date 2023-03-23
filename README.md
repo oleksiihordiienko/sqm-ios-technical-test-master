@@ -1,9 +1,4 @@
 # sqm-ios-technical-test
-The test is designed to be completed in a maximum of **1 hour**.
- 
-The evaluation will be based on the ability of the candidate to understand an existing codebase and contribute to it.
-Special attention should be paid to **memory management**.
-
 The test project's goal is to evaluate your skills and experience level. 
 Please do not include external framework and do not copy-paste external code. 
 
@@ -23,7 +18,6 @@ This app is using a web service to display a list of quotes of a market. The use
 * Create a repo on github.
 * Define the following code as master
 * Create a branch to do the test
-* Create a PR with your code changes targetting master to complete the test
 
 ## Dev Environment
 macOS Ventura 13.2.1, XCode 14.1
