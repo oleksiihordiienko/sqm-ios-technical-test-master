@@ -15,13 +15,12 @@ let package = Package(
         .library(name: "API", targets: ["API"]),
         .library(name: "APIClient", targets: ["APIClient"]),
         .library(name: "AppFlow", targets: ["AppFlow"]),
-        .library(name: "QuoteFlow", targets: ["QuoteFlow"]),
+        .library(name: "QuoteFlowUIKit", targets: ["QuoteFlowUIKit"]),
     ],
     dependencies: [
-        .package(
-            url: "https://github.com/apple/swift-collections.git",
-            .upToNextMinor(from: "1.0.2")
-        )
+        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMinor(from: "1.0.2" )),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMinor(from: "0.52.0")),
+        .package(url: "https://github.com/johnpatrickmorgan/TCACoordinators", .upToNextMinor(from: "0.4.0")),
     ],
     targets: [
         .target(name: "Models", dependencies: ["Resources"]),
@@ -34,9 +33,9 @@ let package = Package(
         .target(name: "Environment", dependencies: ["Utils", "Models"]),
         .target(name: "APIClient", dependencies: ["Environment", "Utils"]),
         .target(name: "API", dependencies: ["APIClient", "Models", "Utils"]),
-        .target(name: "AppFlow", dependencies: ["QuoteFlow"]),
+        .target(name: "AppFlow", dependencies: ["QuoteFlowUIKit"]),
         .target(
-            name: "QuoteFlow",
+            name: "QuoteFlowUIKit",
             dependencies: [
                 "Models",
                 "Utils",
@@ -48,6 +47,6 @@ let package = Package(
             ],
             resources: [.process("Stubs")]
         ),
-        .testTarget(name: "QuoteFlowTests", dependencies: ["QuoteFlow"]),
+        .testTarget(name: "QuoteFlowUIKitTests", dependencies: ["QuoteFlowUIKit"]),
     ]
 )

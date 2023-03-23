@@ -8,7 +8,7 @@
 import XCTest
 import Store
 import Combine
-@testable import QuoteFlow
+@testable import QuoteFlowUIKit
 
 @available(iOS 15, *)
 final class QuoteFlowTests: XCTestCase {
