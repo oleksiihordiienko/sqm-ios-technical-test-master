@@ -24,3 +24,6 @@ This app is using a web service to display a list of quotes of a market. The use
 * Define the following code as master
 * Create a branch to do the test
 * Create a PR with your code changes targetting master to complete the test
+
+## Dev Environment
+macOS Ventura 13.2.1, XCode 14.1
