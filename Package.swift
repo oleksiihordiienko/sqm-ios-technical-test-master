@@ -3,6 +3,14 @@
 
 import PackageDescription
 
+let quoteFlowDependencies: [PackageDescription.Target.Dependency] = [
+    "Models",
+    "Utils",
+    "Resources",
+    "Environment",
+    "QuoteFlowDataManager",
+]
+
 let package = Package(
     name: "sqm-ios-technical-test-master",
     platforms: [.iOS("14.4")],
@@ -16,6 +24,8 @@ let package = Package(
         .library(name: "APIClient", targets: ["APIClient"]),
         .library(name: "AppFlow", targets: ["AppFlow"]),
         .library(name: "QuoteFlowUIKit", targets: ["QuoteFlowUIKit"]),
+        .library(name: "QuoteFlowSwiftUI", targets: ["QuoteFlowSwiftUI"]),
+        .library(name: "QuoteFlowDataManager", targets: ["QuoteFlowDataManager"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-collections.git", .upToNextMinor(from: "1.0.2" )),
@@ -35,18 +45,27 @@ let package = Package(
         .target(name: "API", dependencies: ["APIClient", "Models", "Utils"]),
         .target(name: "AppFlow", dependencies: ["QuoteFlowUIKit"]),
         .target(
-            name: "QuoteFlowUIKit",
-            dependencies: [
-                "Models",
-                "Utils",
-                "Resources",
-                "Environment",
-                "API",
-                "Store",
-                .product(name: "Collections", package: "swift-collections"),
-            ],
+            name: "QuoteFlowDataManager",
+            dependencies: ["Models", "Utils", "Environment", "API"],
+            path: "Sources/QuoteFlow/DataManager",
             resources: [.process("Stubs")]
         ),
+        .target(
+            name: "QuoteFlowUIKit",
+            dependencies: [
+                "Store",
+                .product(name: "Collections", package: "swift-collections"),
+            ] + quoteFlowDependencies,
+            path: "Sources/QuoteFlow/UIKit"
+        ),
         .testTarget(name: "QuoteFlowUIKitTests", dependencies: ["QuoteFlowUIKit"]),
+        .target(
+            name: "QuoteFlowSwiftUI",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "TCACoordinators", package: "TCACoordinators"),
+            ] + quoteFlowDependencies,
+            path: "Sources/QuoteFlow/SwiftUI"
+        ),
     ]
 )

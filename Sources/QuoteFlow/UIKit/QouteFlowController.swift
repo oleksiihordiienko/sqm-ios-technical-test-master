@@ -9,6 +9,7 @@ import UIKit
 import Store
 import Models
 import Utils
+import QuoteFlowDataManager
 
 public final class QouteFlowController: UINavigationController {
     private let root: QuotesListViewController

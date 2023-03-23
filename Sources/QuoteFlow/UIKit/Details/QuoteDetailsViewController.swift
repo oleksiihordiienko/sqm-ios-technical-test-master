@@ -10,6 +10,7 @@ import Environment
 import Models
 import Utils
 import Resources
+import QuoteFlowDataManager
 
 public final class QuoteDetailsViewController: UIViewController {
 
@@ -83,7 +84,7 @@ public final class QuoteDetailsViewController: UIViewController {
     }
 
     private func didSetQuote(_ state: QuoteCell.State) {
-        guard state.quote != SampleData.empty else {
+        guard state.quote != .empty else {
             symbolLabel.text = nil
             nameLabel.text = nil
             lastLabel.text = nil
@@ -129,50 +130,5 @@ public final class QuoteDetailsViewController: UIViewController {
 
     @objc func didPressFavoriteButton(_ sender:UIButton!) {
         addToFavourite.perform(with: state)
-    }
-}
-
-public extension QuoteDetailsViewController {
-    enum SampleData {}
-}
-
-public extension QuoteDetailsViewController.SampleData {
-    static var empty: Quote {
-        .init(
-            id: "",
-            market: .smi,
-            currency: .unknown(""),
-            name: "",
-            symbol: "",
-            last: 0,
-            readableLastChangePercent: "",
-            variationColor: .default
-        )
-    }
-
-    static var preview1: Quote {
-        .init(
-            id: "SMI_PR_Preview_1",
-            market: .smi,
-            currency: .chf,
-            name: "SMI PR",
-            symbol: "SMI PR Symbol",
-            last: 11,
-            readableLastChangePercent: "-0.26 %",
-            variationColor: .red
-        )
-    }
-
-    static var preview2: Quote {
-        .init(
-            id: "",
-            market: .smi,
-            currency: .chf,
-            name: "SWISSCOM M",
-            symbol: "SWISSCOM M Symbol",
-            last: 494.20,
-            readableLastChangePercent: "3.98 %",
-            variationColor: .green
-        )
     }
 }
