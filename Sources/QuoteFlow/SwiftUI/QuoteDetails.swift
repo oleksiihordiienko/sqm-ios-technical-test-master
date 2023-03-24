@@ -6,6 +6,11 @@
 //
 
 import ComposableArchitecture
+import Models
 
 struct QuoteDetails {
+    struct State: Equatable {
+        let quote: Quote
+        let isFavourite: Bool
+    }
 }

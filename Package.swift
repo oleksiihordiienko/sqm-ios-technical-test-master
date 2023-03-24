@@ -13,7 +13,7 @@ let quoteFlowDependencies: [PackageDescription.Target.Dependency] = [
 
 let package = Package(
     name: "sqm-ios-technical-test-master",
-    platforms: [.iOS("14.4")],
+    platforms: [.iOS(.v15)],
     products: [
         .library(name: "Models", targets: ["Models"]),
         .library(name: "Utils", targets: ["Utils"]),
