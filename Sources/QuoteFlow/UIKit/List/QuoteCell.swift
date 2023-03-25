@@ -94,9 +94,8 @@ final class QuoteCell: UITableViewCell {
                 $0.readableLastChangePercent,
                 $0.variationColor
             )) { label, text, color in
-                label.textColor = color.uiColor
-                label.layer.borderColor = color.uiColor.cgColor
                 label.text = text
+                label.textColor = color.uiColor
             }
         }
         favouriteIcon.image = state.isFavourite

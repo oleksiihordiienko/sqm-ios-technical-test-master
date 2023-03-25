@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import QuoteFlowDataManager
 import Environment
 
 extension Environment: DependencyKey {
@@ -13,8 +14,15 @@ extension Environment: DependencyKey {
 }
 
 extension DependencyValues {
-    var currentEnv: Environment {
+    var env: Environment {
         get { self[Environment.self] }
         set { self[Environment.self] = newValue }
     }
 }
+
+
+extension QuoteFlowDataManager: DependencyKey {
+    public static var liveValue: QuoteFlowDataManager { .live }
+    public static var previewValue: QuoteFlowDataManager { .mock }
+}
+

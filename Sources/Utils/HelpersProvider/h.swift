@@ -25,7 +25,7 @@ public struct HelpersExtension<Base> {
         return Base.self
     }
 
-    fileprivate init(_ base: Base) {
+    init(_ base: Base) {
         self.base = base
     }
 }

@@ -15,7 +15,7 @@ import Utils
 
 extension QuoteDetails {
     struct Content: View {
-        @Dependency(\.currentEnv.format.currency) var formatCurrency
+        @Dependency(\.env.format.currency) var formatCurrency
 
         let store: Store<State, Void>
 
@@ -55,17 +55,15 @@ extension QuoteDetails {
         func readableLastChangePercent(with viewStore: ViewStore<QuoteDetails.State, Void>) -> some View {
             Text(viewStore.quote.readableLastChangePercent)
                 .font(.system(size: Consts.FontSize.readableLastChangePercentLabel))
+                .foregroundColor(Color(uiColor: viewStore.quote.variationColor.uiColor))
                 .frame(
                     width: Consts.Width.readableLastChangePercentLabel,
                     height: Consts.Height.readableLastChangePercentLabel
                 )
-                .overlay(
-                    RoundedRectangle(cornerRadius: Consts.cornerRadius)
-                        .stroke(
-                            Color(uiColor: viewStore.quote.variationColor.uiColor),
-                            lineWidth: Consts.BorderWidth.readableLastChangePercentLabel
-                        )
-                )
+                .overlay(RoundedRectangle(cornerRadius: Consts.cornerRadius).stroke(
+                    Color(uiColor: viewStore.quote.variationColor.uiColor),
+                    lineWidth: Consts.BorderWidth.readableLastChangePercentLabel
+                ))
         }
 
         func favouriteButton(with viewStore: ViewStore<QuoteDetails.State, Void>) -> some View {
