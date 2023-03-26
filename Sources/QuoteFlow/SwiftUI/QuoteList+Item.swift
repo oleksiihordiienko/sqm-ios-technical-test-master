@@ -13,10 +13,14 @@ import ComposableArchitecture
 import SwiftUI
 
 extension QuoteList {
-    struct ItemState {
+    struct ItemState: Identifiable {
         let isSelected: Bool
         let isFavourite: Bool
         let quote: Quote
+
+        var id: Quote.ID {
+            quote.id
+        }
     }
 
     struct Item: View {
