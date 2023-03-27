@@ -19,7 +19,7 @@ struct QuoteList: ReducerProtocol {
     enum Action: Equatable {
         case load
         case loadResponse(TaskResult<[Quote]>)
-        case select(Quote)
+        case select(Quote.ID?)
     }
 
     @Dependency(\.worker) var worker
@@ -32,18 +32,19 @@ struct QuoteList: ReducerProtocol {
             }
 
         case let .loadResponse(.success(quotes)):
-            state.quotes = F.updated(.init()) {
-                $0.append(contentsOf: quotes)
-            }
+            state.quotes = F.updated(.init()) { $0.append(contentsOf: quotes) }
+            state.favourites = .init(state.quotes.ids.intersection(state.favourites))
+            state.isSelected = state.isSelected.flatMap { state.quotes.ids.contains($0) ? $0 : nil }
             return .none
 
         case .loadResponse(.failure):
+            state.quotes = []
             state.isSelected = nil
             state.favourites = .init()
             return .none
 
-        case let .select(quote):
-            state.isSelected = quote.id
+        case let .select(id):
+            state.isSelected = id
             return .none
         }
     }
